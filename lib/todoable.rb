@@ -73,16 +73,4 @@ module Todoable
       result
     end
   end
-
-  # session = Todoable::Session.new(username, password)
-
-  # session.get_all
-  # session.create_list(list: { name: 'list name' })
-  # session.get(:id)
-  # session.update(:id, { list: { name: 'new name' } })
-  # session.delete_list(:id)
-
-  # session.create_item(:list_id, payload)
-  # session.complete(:list_id, :item_id)
-  # session.delete_item(:list_id, :id)
 end

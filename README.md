@@ -22,7 +22,28 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+# to start a new session
+session = Todoable::Session.new(username, password)
+
+# list actions
+session.get_all # retrieve all lists
+
+session.create_list(list: { name: 'list name' }) # create a new list
+
+session.get(:id) # retrieve a list specified by id
+
+session.update(:id, { list: { name: 'new name' } }) # update a specific list name
+
+session.delete_list(:id) # delete a list
+
+# item actions
+session.create_item(:list_id, { item: { name: 'item name' } }) # create an item within a specified list
+
+session.complete(:list_id, :item_id) # mark a specified item as complete within the specified list
+
+session.delete_item(:list_id, :id) # delete a specific item in a specific list
+```
 
 ## Development
 
