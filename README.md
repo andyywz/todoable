@@ -31,6 +31,7 @@ session.authenticate # Hooray! You are now authenticated
 ```
 
 **Managing Lists**
+
 Here are some of the actions you can take to manage your lists.
 
 ```ruby
@@ -51,6 +52,7 @@ session.delete_list(:list_id)
 ```
 
 **Managing Items**
+
 Here are some of the actions you can take to manage your items.
 
 ```ruby
