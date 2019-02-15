@@ -9,16 +9,16 @@ This gem is a very simple wrapper that simplifies calls to the Todoable API by T
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'todoable'
+gem 'todoable', git: 'git@github.com:andyywz/todoable.git'
 ```
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
 
-    $ gem install todoable
+NOTE: As of this README, the gem is not public so you won't be able to install the gem locally via RubyGems.
+
 
 ## Usage
 
