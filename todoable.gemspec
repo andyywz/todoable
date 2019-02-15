@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Teachable interview coding assignment.}
   spec.description   = %q{A gem that wraps the endpoints of the Todoable HTTP API}
-  spec.homepage      = "https://github.com/andyywz/todoable"
+  spec.homepage      = "https://github.com/andyywz"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
