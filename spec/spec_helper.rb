@@ -1,5 +1,21 @@
 require "bundler/setup"
 require "todoable"
+require "webmock/rspec"
+require "vcr"
+require "byebug"
+
+# Disable external requests
+WebMock.disable_net_connect!(allow_localhost: true)
+
+VCR.configure do |config|
+  config.cassette_library_dir = 'spec/vcr'
+
+  config.hook_into :webmock
+
+  config.default_cassette_options = {
+    allow_playback_repeats: true
+  }
+end
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
