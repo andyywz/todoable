@@ -4,23 +4,22 @@ require 'logger'
 require 'todoable/version'
 require 'todoable/list_helper'
 require 'todoable/item_helper'
+require 'todoable/exceptions'
 
 module Todoable
 
   class Session
     include Todoable::ListHelper
     include Todoable::ItemHelper
+    include Todoable::Exceptions
 
-    attr_reader :token, :token_expiry
+    attr_accessor :user, :password, :token, :token_expiry
 
     AUTH_URL = 'http://todoable.teachable.tech/api/authenticate'.freeze
 
-    def initialize(username, password)
-      @username = username
+    def initialize(user, password)
+      @user = user
       @password = password
-      @token = nil
-
-      authenticate
     end
 
     def token_expired?
@@ -34,7 +33,7 @@ module Todoable
         response = RestClient::Request.execute(
           method: :post,
           url: AUTH_URL,
-          user: @username,
+          user: @user,
           password: @password,
           headers: {
             content_type: :json,
@@ -47,12 +46,13 @@ module Todoable
         @token = body['token']
       rescue RestClient::Unauthorized => e
         # TODO: Log Errors
-        raise
+        raise UserUnauthorized.new('The user and password do not match Todoable Api records')
       end
     end
 
     def invoke(action, url, payload = {})
-      authenticate
+      raise UserUnauthorized unless @token
+      authenticate if @token && token_expired?
 
       begin
         response = RestClient::Request.execute(
