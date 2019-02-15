@@ -27,8 +27,14 @@ To begin, login to a todoable session by using the following commands.
 ```ruby
 session = Todoable::Session.new(your_username, your_password)
 
-session.authenticate # Hooray! You are now authenticated
+session.authenticate # returns the access token on success
 ```
+
+When you have successfully logged in, your session token will be stored by the session object.
+The session token will expire every 20 minutes. However, do not worry, if your token has expired
+when you try to make a request, the session will automatically re-authenticate your user with the
+same credentials you provided when you initially logged in.
+
 
 **Managing Lists**
 
@@ -39,16 +45,16 @@ Here are some of the actions you can take to manage your lists.
 session.lists
 
 # returns the attributes of the list specified by id
-session.get_list(:list_id)
+session.get_list(list_id)
 
 # creates a new list, returns the attributes of the created list
 session.create_list('list name')
 
 # updates the name of a specific list, returns the updated name
-session.update_list_name(:list_id, 'new name')
+session.update_list_name(list_id, 'new name')
 
 # delete a specific list
-session.delete_list(:list_id)
+session.delete_list(list_id)
 ```
 
 **Managing Items**
@@ -57,13 +63,13 @@ Here are some of the actions you can take to manage your items.
 
 ```ruby
 # create an item within a specific list, returns the attributes of the created item
-session.create_item(:list_id, 'item name')
+session.create_item(list_id, 'item name')
 
 # mark a specific item as complete within a specific list
-session.mark_complete(:list_id, :item_id)
+session.mark_complete(list_id, item_id)
 
 # delete a specific item in a specific list
-session.delete_item(:list_id, :item_id)
+session.delete_item(list_id, item_id)
 ```
 
 ## Development
