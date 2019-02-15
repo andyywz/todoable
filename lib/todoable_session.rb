@@ -52,7 +52,8 @@ module Todoable
 
     def invoke(action, url, payload = {})
       raise UserUnauthorized unless @token
-      authenticate if @token && token_expired?
+
+      authenticate if token_expired?
 
       begin
         response = RestClient::Request.execute(
