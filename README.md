@@ -22,10 +22,12 @@ Or install it yourself as:
 
 ## Usage
 
-To begin, login to a todoable session by using the following command.
+To begin, login to a todoable session by using the following commands.
 
 ```ruby
 session = Todoable::Session.new(your_username, your_password)
+
+session.authenticate # Hooray! You are now authenticated
 ```
 
 **Managing Lists**
@@ -33,16 +35,16 @@ Here are some of the actions you can take to manage your lists.
 
 ```ruby
 # returns an array of all the lists belonging to the current user
-session.get_all
+session.lists
 
 # returns the attributes of the list specified by id
-session.get(:list_id)
+session.get_list(:list_id)
 
 # creates a new list, returns the attributes of the created list
 session.create_list('list name')
 
 # updates the name of a specific list, returns the updated name
-session.update(:list_id, 'new name')
+session.update_list_name(:list_id, 'new name')
 
 # delete a specific list
 session.delete_list(:list_id)
@@ -56,15 +58,11 @@ Here are some of the actions you can take to manage your items.
 session.create_item(:list_id, 'item name')
 
 # mark a specific item as complete within a specific list
-session.complete(:list_id, :item_id)
+session.mark_complete(:list_id, :item_id)
 
 # delete a specific item in a specific list
 session.delete_item(:list_id, :item_id)
 ```
-
-**Handling Errors**
-Any errors returned by the Todoable API will be returned in the response so that you may handle
-the error however you please.
 
 ## Development
 
