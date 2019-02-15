@@ -1,6 +1,5 @@
 require 'rest-client'
 require 'json'
-require 'logger'
 require 'todoable/version'
 require 'todoable/list_helper'
 require 'todoable/item_helper'

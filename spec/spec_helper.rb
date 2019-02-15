@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "todoable_session"
+require "todoable"
 require "webmock/rspec"
 require "vcr"
 require "byebug"
