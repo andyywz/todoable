@@ -1,20 +1,19 @@
 require 'rest-client'
 require 'json'
+require 'logger'
 require 'todoable/version'
 require 'todoable/list_helper'
 require 'todoable/item_helper'
 
 module Todoable
 
-  class Error < StandardError; end
-  class UnauthorizedError < StandardError; end
-
   class Session
     include Todoable::ListHelper
     include Todoable::ItemHelper
 
-    TOKEN_LIFESPAN = 20 * 60
-    AUTH_URL = 'http://todoable.teachable.tech/api/authenticate'
+    attr_reader :token, :token_expiry
+
+    AUTH_URL = 'http://todoable.teachable.tech/api/authenticate'.freeze
 
     def initialize(username, password)
       @username = username
@@ -32,30 +31,34 @@ module Todoable
       return @token if @token && !token_expired?
 
       begin
-        payload = { username: @username, password: @password }.to_json
-        headers = { content_type: :json, accept: :json }
+        response = RestClient::Request.execute(
+          method: :post,
+          url: AUTH_URL,
+          user: @username,
+          password: @password,
+          headers: {
+            content_type: :json,
+            accept: :json
+          }
+        )
+        body = JSON.parse(response.body)
 
-        response = RestClient.post(AUTH_URL, payload, headers)
-
-        @token_expiry = Time.now + TOKEN_LIFESPAN
-        @token = JSON.parse(response.body)['token']
-      rescue RestClient::Unauthorized
-        # Log Error
-        puts 'the username and password combination does not match our records'
-        @token = nil
+        @token_expiry = Time.parse(body['expires_at'])
+        @token = body['token']
+      rescue RestClient::Unauthorized => e
+        # TODO: Log Errors
+        raise
       end
-
-      @token
     end
 
-    def invoke(method, url, payload = {})
+    def invoke(action, url, payload = {})
       authenticate
 
       begin
         response = RestClient::Request.execute(
-          method: method,
+          method: action,
           url: url,
-          payload: payload,
+          payload: payload.to_json,
           headers: {
             Authorization: @token,
             content_type: :json,
@@ -63,14 +66,12 @@ module Todoable
           }
         )
 
-        result = JSON.parse(response.body)
-      rescue RestClient::UnprocessableEntity
-        # Log Error
-        # TODO: Error handling
-        result = nil # return a proper error message
+        response.body
+      rescue RestClient::UnprocessableEntity => e
+        # TODO: Log Errors
+        # Re raise for now
+        raise
       end
-
-      result
     end
   end
 end
