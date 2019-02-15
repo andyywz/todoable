@@ -5,10 +5,10 @@ module Todoable
     def create_item(list_id, name)
       response = invoke(:post, items_url(list_id), { item: { name: name } })
 
-      JSON.parse(response.body)
+      JSON.parse(response)
     end
 
-    def complete(list_id, item_id)
+    def mark_complete(list_id, item_id)
       invoke(:put, "#{items_url(list_id)}/#{item_id}/finish")
     end
 

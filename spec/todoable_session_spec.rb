@@ -1,12 +1,11 @@
 RSpec.describe Todoable do
   describe Todoable::Session do
     # NOTE: Typically I would set user and password in a config file instead of exposing it.
-    let (:user) { 'andyywz@gmail.com' }
+    let (:user)     { 'andyywz@gmail.com' }
     let (:password) { 'todoable' }
-    let (:url) { 'http://todoable.teachable.tech/api/authenticate' }
+    let (:url)      { 'http://todoable.teachable.tech/api/authenticate' }
     let (:list_url) { 'http://todoable.teachable.tech/api/lists' }
-    let (:headers) { { content_type: :json, accept: :json } }
-    let (:session) { Todoable::Session.new(user, password) }
+    let (:session)  { Todoable::Session.new(user, password) }
 
     it 'sets the user and password on initialization' do
       expect(session.user).to eq(user)

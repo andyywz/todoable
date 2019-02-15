@@ -2,13 +2,13 @@ module Todoable
   module ListHelper
     BASE_URL = 'http://todoable.teachable.tech/api/lists'.freeze
 
-    def get_all
+    def lists
       response = invoke(:get, BASE_URL)
 
       JSON.parse(response)['lists']
     end
 
-    def get(id)
+    def get_list(id)
       response = invoke(:get, "#{BASE_URL}/#{id}")
 
       JSON.parse(response)
@@ -20,7 +20,7 @@ module Todoable
       JSON.parse(response)
     end
 
-    def update(id, name)
+    def update_list_name(id, name)
       invoke(:patch, "#{BASE_URL}/#{id}", payloadify(name))
     end
 
