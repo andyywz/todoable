@@ -41,4 +41,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rest-client", "~> 2.0.2"
   spec.add_development_dependency "json", "~> 1.8.3"
+  spec.add_development_dependency "vcr", "~> 4.0.0"
+  spec.add_development_dependency "webmock", "~> 3.5.1"
+  spec.add_development_dependency "byebug", "~> 10.0.2"
 end
